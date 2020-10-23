@@ -1,8 +1,10 @@
 package de.vaadin.ui;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -14,10 +16,12 @@ import de.vaadin.backend.service.ContactService;
 @Route("")
 @CssImport("./styles/shared-styles.css")
 public class MainView extends VerticalLayout {
-    Grid<Contact> grid = new Grid<>(Contact.class);
-    TextField filterText = new TextField();
     private ContactService contactService;
-    private final ContactForm form;
+
+    private Grid<Contact> grid = new Grid<>(Contact.class);
+    private TextField filterText = new TextField();
+    private Button addContactButton = new Button("Add contact");
+    private ContactForm form;
 
     public MainView(ContactService contactService) {
         this.contactService = contactService;
@@ -33,7 +37,7 @@ public class MainView extends VerticalLayout {
         content.addClassName("content");
         content.setSizeFull();
 
-        add(filterText, content);
+        add(new HorizontalLayout(filterText, addContactButton), content);
         updateList();
     }
 
