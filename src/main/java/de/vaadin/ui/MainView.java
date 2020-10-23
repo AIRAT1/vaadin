@@ -2,6 +2,8 @@ package de.vaadin.ui;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import de.vaadin.backend.entity.Company;
 import de.vaadin.backend.entity.Contact;
@@ -10,6 +12,7 @@ import de.vaadin.backend.service.ContactService;
 @Route("")
 public class MainView extends VerticalLayout {
     Grid<Contact> grid = new Grid<>(Contact.class);
+    TextField filterText = new TextField();
     private ContactService contactService;
 
     public MainView(ContactService contactService) {
@@ -17,7 +20,8 @@ public class MainView extends VerticalLayout {
         addClassName("list-view");
         setSizeFull();
         configureGrid();
-        add(grid);
+        configureFilter();
+        add(filterText, grid);
         updateList();
     }
 
@@ -33,8 +37,15 @@ public class MainView extends VerticalLayout {
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
+    private void configureFilter() {
+        filterText.setPlaceholder("Filter by name...");
+        filterText.setClearButtonVisible(true);
+        filterText.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText.addValueChangeListener(e -> updateList());
+    }
+
     private void updateList() {
-        grid.setItems(contactService.findAll());
+        grid.setItems(contactService.findAll(filterText.getValue()));
     }
 
 }
