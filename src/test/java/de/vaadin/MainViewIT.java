@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.crm;
+package de.vaadin;
 
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import org.junit.Assert;
