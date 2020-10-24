@@ -14,12 +14,16 @@ import de.vaadin.backend.entity.Contact;
 import de.vaadin.backend.service.CompanyService;
 import de.vaadin.backend.service.ContactService;
 import de.vaadin.ui.MainLayout;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Contacts | Vaadin CRM")
+@Component
+@Scope("prototype")
 public class ListView extends VerticalLayout {
 
-    private final ContactForm form;
+    ContactForm form;
     Grid<Contact> grid = new Grid<>(Contact.class);
     TextField filterText = new TextField();
 
